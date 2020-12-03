@@ -6,6 +6,7 @@ import { ConfigService } from 'nestjs-dotenv';
 export class DatabaseConnectionService implements TypeOrmOptionsFactory {
   constructor(private readonly configService: ConfigService) { }
   createTypeOrmOptions(): TypeOrmModuleOptions {
+    console.log('Is present', Boolean(this.configService.get('DATABASE_USER')));
     if (this.configService.get('DATABASE_URL')) {
       return {
         name: 'default',

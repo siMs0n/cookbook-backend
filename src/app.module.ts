@@ -7,10 +7,10 @@ import { DatabaseConnectionService } from './database-service';
 
 @Module({
   imports: [
+    ConfigModule.forRoot(),
     TypeOrmModule.forRootAsync({
       useClass: DatabaseConnectionService,
     }),
-    ConfigModule.forRoot(),
   ],
   controllers: [AppController],
   providers: [AppService],
