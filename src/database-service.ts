@@ -1,17 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { TypeOrmOptionsFactory, TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { ConfigService } from 'nestjs-dotenv';
 
 @Injectable()
 export class DatabaseConnectionService implements TypeOrmOptionsFactory {
-  constructor(private readonly configService: ConfigService) { }
   createTypeOrmOptions(): TypeOrmModuleOptions {
-    console.log('Is present', Boolean(this.configService.get('DATABASE_USER')));
-    if (this.configService.get('DATABASE_URL')) {
+    console.log(process.env);
+    if (process.env.DATABASE_URL) {
       return {
         name: 'default',
         type: 'postgres',
-        url: this.configService.get('DATABASE_URL'),
+        url: process.env.DATABASE_URL,
         synchronize: true,
         entities: ['dist/**/*.entity.js'],
       };
@@ -19,11 +17,11 @@ export class DatabaseConnectionService implements TypeOrmOptionsFactory {
     return {
       name: 'default',
       type: 'postgres',
-      host: this.configService.get('DATABASE_HOST'),
-      port: Number(this.configService.get('DATABASE_PORT')),
-      username: this.configService.get('DATABASE_USER'),
-      password: this.configService.get('DATABASE_PASSWORD'),
-      database: this.configService.get('DATABASE_DB'),
+      host: process.env.DATABASE_HOST,
+      port: Number(process.env.DATABASE_PORT),
+      username: process.env.DATABASE_USER,
+      password: process.env.DATABASE_PASSWORD,
+      database: process.env.DATABASE_DB,
       synchronize: true,
       dropSchema: false,
       logging: true,
