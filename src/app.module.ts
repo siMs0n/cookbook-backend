@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from 'nestjs-dotenv';
 import { DatabaseConnectionService } from './database-service';
+import { RecipesModule } from './recipes/recipes.module';
 
 @Module({
   imports: [
@@ -11,6 +12,7 @@ import { DatabaseConnectionService } from './database-service';
     TypeOrmModule.forRootAsync({
       useClass: DatabaseConnectionService,
     }),
+    RecipesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

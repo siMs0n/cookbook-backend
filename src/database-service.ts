@@ -4,7 +4,6 @@ import { TypeOrmOptionsFactory, TypeOrmModuleOptions } from '@nestjs/typeorm';
 @Injectable()
 export class DatabaseConnectionService implements TypeOrmOptionsFactory {
   createTypeOrmOptions(): TypeOrmModuleOptions {
-    console.log(process.env);
     if (process.env.DATABASE_URL) {
       return {
         name: 'default',
