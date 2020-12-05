@@ -1,26 +1,23 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 import { CreateRecipeDto } from './dto/create-recipe.dto';
 import { UpdateRecipeDto } from './dto/update-recipe.dto';
-import { Recipe } from './entities/recipe.entity';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Recipe, RecipeDocument } from './schemas/recipe.schema';
 
 @Injectable()
 export class RecipesService {
   constructor(
-    @InjectRepository(Recipe) private readonly repo: Repository<Recipe>,
+    @InjectModel(Recipe.name) private recipeModel: Model<RecipeDocument>,
   ) { }
 
-  create(createRecipeDto: CreateRecipeDto) {
-    const newRecipe = new Recipe();
-    newRecipe.name = createRecipeDto.name;
-    newRecipe.link = createRecipeDto.link;
-    newRecipe.minutesToMake = createRecipeDto.minutesToMake;
-    return this.repo.save(newRecipe);
+  async create(createRecipeDto: CreateRecipeDto): Promise<Recipe> {
+    const createdCat = new this.recipeModel(createRecipeDto);
+    return createdCat.save();
   }
 
-  async findAll() {
-    return await this.repo.find();
+  async findAll(): Promise<Recipe[]> {
+    return this.recipeModel.find().exec();
   }
 
   findOne(id: number) {

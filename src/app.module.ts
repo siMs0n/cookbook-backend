@@ -1,16 +1,17 @@
 import { Module } from '@nestjs/common';
+import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from 'nestjs-dotenv';
-import { DatabaseConnectionService } from './database-service';
 import { RecipesModule } from './recipes/recipes.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
-    TypeOrmModule.forRootAsync({
-      useClass: DatabaseConnectionService,
+    MongooseModule.forRootAsync({
+      useFactory: () => ({
+        uri: `mongodb+srv://cookbook-backend:${process.env.DATABASE_PASSWORD}@cookbook.vlgji.mongodb.net/cookbook?retryWrites=true&w=majority`,
+      }),
     }),
     RecipesModule,
   ],
