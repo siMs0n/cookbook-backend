@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateRecipeDto } from './dto/create-recipe.dto';
@@ -20,15 +20,33 @@ export class RecipesService {
     return this.recipeModel.find().exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} recipe`;
+  async findOne(id: string) {
+    try {
+      return await this.recipeModel.findById(id).exec();
+    } catch (error) {
+      throw new NotFoundException('Could not find recipe.');
+    }
   }
 
-  update(id: number, updateRecipeDto: UpdateRecipeDto) {
-    return `This action updates a #${id} recipe`;
+  async update(id: string, updateRecipeDto: UpdateRecipeDto) {
+    try {
+      const result = await this.recipeModel
+        .updateOne({ _id: id }, updateRecipeDto)
+        .exec();
+      if (result.n === 0) {
+        throw new NotFoundException('Could not find recipe to update.');
+      }
+      return await this.recipeModel.findById(id).exec();
+    } catch (error) {
+      throw new NotFoundException('Could not find recipe to update.');
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} recipe`;
+  async remove(id: string) {
+    const result = await this.recipeModel.deleteOne({ _id: id }).exec();
+    if (result.n === 0) {
+      throw new NotFoundException('Could not find recipe.');
+    }
+    return 'Recipe was deleted';
   }
 }
