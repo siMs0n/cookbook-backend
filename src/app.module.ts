@@ -4,6 +4,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from 'nestjs-dotenv';
 import { RecipesModule } from './recipes/recipes.module';
+import { TagsModule } from './tags/tags.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { RecipesModule } from './recipes/recipes.module';
       }),
     }),
     RecipesModule,
+    TagsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

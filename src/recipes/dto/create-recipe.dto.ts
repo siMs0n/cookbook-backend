@@ -1,5 +1,5 @@
 import { Ingredient } from '../schemas/recipe.schema';
-import { Category } from '../schemas/category.schema';
+import { Tag } from '../../tags/schemas/tag.schema';
 
 export class CreateRecipeDto {
   readonly name: string;
@@ -7,7 +7,7 @@ export class CreateRecipeDto {
   readonly minutesToMake: number;
   readonly servings: number;
   readonly ingredients: Ingredient[];
-  readonly categories: Category[];
+  readonly tags: Tag[];
   readonly comment: string;
   readonly rating: number;
 }

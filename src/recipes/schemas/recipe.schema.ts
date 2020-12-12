@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory, raw } from '@nestjs/mongoose';
 import { Document, Schema as MongooseSchema } from 'mongoose';
-import { Category } from './category.schema';
+import { Tag } from '../../tags/schemas/tag.schema';
 
 export type RecipeDocument = Recipe & Document;
 
@@ -36,9 +36,9 @@ export class Recipe {
   ingredients: Record<string, any>;
 
   @Prop({
-    type: [{ type: MongooseSchema.Types.ObjectId, ref: Category.name }],
+    type: [{ type: MongooseSchema.Types.ObjectId, ref: Tag.name }],
   })
-  categories: Category[];
+  tags: Tag[];
 
   @Prop()
   comment: string;

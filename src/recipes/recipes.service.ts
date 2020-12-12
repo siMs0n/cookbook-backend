@@ -12,12 +12,12 @@ export class RecipesService {
   ) { }
 
   async create(createRecipeDto: CreateRecipeDto): Promise<Recipe> {
-    const createdCat = new this.recipeModel(createRecipeDto);
-    return createdCat.save();
+    const createdRecipe = new this.recipeModel(createRecipeDto);
+    return createdRecipe.save();
   }
 
   async findAll(): Promise<Recipe[]> {
-    return this.recipeModel.find().exec();
+    return this.recipeModel.find().populate('tags').exec();
   }
 
   async findOne(id: string) {
