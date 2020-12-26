@@ -11,3 +11,15 @@ export class CreateRecipeDto {
   readonly comment: string;
   readonly rating: number;
 }
+
+export class CreateRecipeDtoWithUserId {
+  readonly name: string;
+  readonly link: string;
+  readonly minutesToMake: number;
+  readonly servings: number;
+  readonly ingredients: Ingredient[];
+  readonly tags: Tag[];
+  readonly comment: string;
+  readonly rating: number;
+  readonly userId: string;
+}

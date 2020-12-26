@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { CreateRecipeDto } from './dto/create-recipe.dto';
+import { Model, Types } from 'mongoose';
+import { CreateRecipeDtoWithUserId } from './dto/create-recipe.dto';
 import { UpdateRecipeDto } from './dto/update-recipe.dto';
 import { Recipe, RecipeDocument } from './schemas/recipe.schema';
 
@@ -9,15 +9,21 @@ import { Recipe, RecipeDocument } from './schemas/recipe.schema';
 export class RecipesService {
   constructor(
     @InjectModel(Recipe.name) private recipeModel: Model<RecipeDocument>,
-  ) { }
+  ) {}
 
-  async create(createRecipeDto: CreateRecipeDto): Promise<Recipe> {
-    const createdRecipe = new this.recipeModel(createRecipeDto);
+  async create(
+    createRecipeDtoWithUserId: CreateRecipeDtoWithUserId,
+  ): Promise<Recipe> {
+    const createdRecipe = new this.recipeModel(createRecipeDtoWithUserId);
     return createdRecipe.save();
   }
 
-  async findAll(): Promise<Recipe[]> {
-    return this.recipeModel.find().populate('tags').exec();
+  async findAll(userId: string): Promise<Recipe[]> {
+    const userObjectId = new Types.ObjectId(userId);
+    return this.recipeModel
+      .find({ userId: userObjectId })
+      .populate('tags')
+      .exec();
   }
 
   async findOne(id: string) {

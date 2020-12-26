@@ -11,4 +11,4 @@ import { Recipe, RecipeSchema } from './schemas/recipe.schema';
   controllers: [RecipesController],
   providers: [RecipesService],
 })
-export class RecipesModule { }
+export class RecipesModule {}

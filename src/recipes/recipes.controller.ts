@@ -6,9 +6,13 @@ import {
   Put,
   Param,
   Delete,
+  Request,
 } from '@nestjs/common';
 import { RecipesService } from './recipes.service';
-import { CreateRecipeDto } from './dto/create-recipe.dto';
+import {
+  CreateRecipeDto,
+  CreateRecipeDtoWithUserId,
+} from './dto/create-recipe.dto';
 import { UpdateRecipeDto } from './dto/update-recipe.dto';
 
 @Controller('recipes')
@@ -16,13 +20,17 @@ export class RecipesController {
   constructor(private readonly recipesService: RecipesService) { }
 
   @Post()
-  create(@Body() createRecipeDto: CreateRecipeDto) {
-    return this.recipesService.create(createRecipeDto);
+  create(@Body() createRecipeDto: CreateRecipeDto, @Request() req) {
+    const createRecipeDtoWithUserId: CreateRecipeDtoWithUserId = {
+      ...createRecipeDto,
+      userId: req.user.userId,
+    };
+    return this.recipesService.create(createRecipeDtoWithUserId);
   }
 
   @Get()
-  findAll() {
-    return this.recipesService.findAll();
+  findAll(@Request() req) {
+    return this.recipesService.findAll(req.user.userId);
   }
 
   @Get(':id')
