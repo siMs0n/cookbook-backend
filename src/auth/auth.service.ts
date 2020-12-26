@@ -23,7 +23,11 @@ export class AuthService {
   }
 
   async login(user: any) {
-    const payload = { username: user.username, sub: user._id };
+    const payload = {
+      username: user.username,
+      sub: user._id,
+      approved: user.approved,
+    };
     return {
       access_token: this.jwtService.sign(payload),
     };
@@ -31,7 +35,11 @@ export class AuthService {
 
   async register(credentials: RegisterDTO): Promise<any> {
     const user = await this.usersService.create(credentials);
-    const payload = { username: user.username, sub: user._id };
+    const payload = {
+      username: user.username,
+      sub: user._id,
+      approved: user.approved,
+    };
     return {
       access_token: this.jwtService.sign(payload),
     };
