@@ -6,7 +6,6 @@ import {
   Put,
   Param,
   Delete,
-  Request,
 } from '@nestjs/common';
 import { RecipesService } from './recipes.service';
 import {
@@ -14,23 +13,25 @@ import {
   CreateRecipeDtoWithUserId,
 } from './dto/create-recipe.dto';
 import { UpdateRecipeDto } from './dto/update-recipe.dto';
+import { User } from 'src/users/user.decorator';
+import { UserDTO } from 'src/users/dto/user.dto';
 
 @Controller('recipes')
 export class RecipesController {
-  constructor(private readonly recipesService: RecipesService) { }
+  constructor(private readonly recipesService: RecipesService) {}
 
   @Post()
-  create(@Body() createRecipeDto: CreateRecipeDto, @Request() req) {
+  create(@Body() createRecipeDto: CreateRecipeDto, @User() user: UserDTO) {
     const createRecipeDtoWithUserId: CreateRecipeDtoWithUserId = {
       ...createRecipeDto,
-      userId: req.user.userId,
+      userId: user.userId,
     };
     return this.recipesService.create(createRecipeDtoWithUserId);
   }
 
   @Get()
-  findAll(@Request() req) {
-    return this.recipesService.findAll(req.user.userId);
+  findAll(@User() user: UserDTO) {
+    return this.recipesService.findAll(user.userId);
   }
 
   @Get(':id')
