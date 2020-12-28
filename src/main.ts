@@ -7,6 +7,7 @@ async function bootstrap() {
   app.enableCors({
     origin: ['http://localhost:3000', 'https://kokboksappen.netlify.app'],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
     preflightContinue: false,
     optionsSuccessStatus: 204,
   });
