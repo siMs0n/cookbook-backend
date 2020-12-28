@@ -25,6 +25,12 @@ export class Recipe {
   @Prop()
   servings: number;
 
+  @Prop()
+  description: string;
+
+  @Prop()
+  cookingSteps: string[];
+
   @Prop(
     raw([
       {
