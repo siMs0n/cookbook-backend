@@ -34,6 +34,7 @@ function parseHtml(html: string, url: string): Recipe {
   const minutesToMake = parseInt(minutesToMakeText.replace(/\D/g, ''));
   const servingsText = $('div', '.ingredients-change-portions').text();
   const servings = parseInt(servingsText.replace(/\D/g, ''));
+  const imageLink = $('.recipe-header__image').attr('src');
 
   const ingredients: Ingredient[] = [];
   $(
@@ -60,6 +61,7 @@ function parseHtml(html: string, url: string): Recipe {
   const recipe = new Recipe();
   recipe.name = title;
   recipe.link = url;
+  recipe.imageLink = imageLink;
   recipe.description = description;
   recipe.minutesToMake = minutesToMake;
   recipe.servings = servings;

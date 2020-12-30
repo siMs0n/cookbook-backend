@@ -21,6 +21,9 @@ export class Recipe {
   link: string;
 
   @Prop()
+  imageLink: string;
+
+  @Prop()
   minutesToMake: number;
 
   @Prop()
