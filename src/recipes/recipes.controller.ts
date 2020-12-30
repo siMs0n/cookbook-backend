@@ -6,6 +6,7 @@ import {
   Put,
   Param,
   Delete,
+  BadRequestException,
 } from '@nestjs/common';
 import { RecipesService } from './recipes.service';
 import {
@@ -15,6 +16,8 @@ import {
 import { UpdateRecipeDto } from './dto/update-recipe.dto';
 import { User } from 'src/users/user.decorator';
 import { UserDTO } from 'src/users/dto/user.dto';
+import { getRecipe } from './scrapers/ica.scraper';
+import { url } from 'inspector';
 
 @Controller('recipes')
 export class RecipesController {
@@ -47,5 +50,13 @@ export class RecipesController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.recipesService.remove(id);
+  }
+
+  @Post('/scrape')
+  crawl(@Body() body: { url: string }) {
+    if (!body.url.includes('ica.se')) {
+      throw new BadRequestException('Website not supported');
+    }
+    return getRecipe(body.url);
   }
 }

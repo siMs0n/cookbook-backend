@@ -7,8 +7,9 @@ export type RecipeDocument = Recipe & Document;
 
 export type Ingredient = {
   name: string;
-  amount: number;
-  unit: string;
+  quantity: number | null;
+  unit: string | null;
+  quantityAndUnitLabel: string;
 };
 
 @Schema()
@@ -36,7 +37,8 @@ export class Recipe {
       {
         name: { type: String },
         unit: { type: String },
-        amount: { type: Number },
+        quantity: { type: Number },
+        quantityAndUnitLabel: { type: String }, // for example ca 25 g
       },
     ]),
   )
